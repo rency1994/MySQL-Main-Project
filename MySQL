@@ -1,0 +1,195 @@
+CREATE DATABASE  library;
+
+USE library;
+
+
+CREATE TABLE  Branch (
+    Branch_no INT PRIMARY KEY,
+    Manager_Id INT,
+    Branch_address VARCHAR(50),
+    Contact_no VARCHAR(20)
+);
+
+INSERT INTO Branch (Branch_no, Manager_Id, Branch_address, Contact_no)
+VALUES
+    (101, 201, 'Abc Street', '989-987-1230'),
+    (102, 202, 'Lakshmi Road', '620-675-8765'),
+    (103, 203, 'Juna Bazar', '898-145-7865'),
+    (104, 204, 'Tulip Bridge', '765-432-6567'),
+    (105, 205, 'Bajirao Road', '848-3232-9876'),
+    (106, 206, 'Tulip Bridge', '765-098-9990'),
+    (107, 207, 'Tulip Bridge', '999-876-3434'),
+    (108, 208, 'Lakshmi Road', '897-000-2121'),
+    (109, 209, 'Juna Bazar', '987-9876-1112'),
+    (110, 210, 'Abc Street', '804-147-7345');
+
+CREATE TABLE  Employee (
+    Emp_Id INT PRIMARY KEY,
+    Emp_name VARCHAR(200),
+    Position VARCHAR(100),
+    Salary INT,
+    Branch_no INT,
+    FOREIGN KEY (Branch_no) REFERENCES Branch(Branch_no)
+);
+
+INSERT INTO Employee (Emp_Id, Emp_name, Position, Salary, Branch_no)
+VALUES
+    (301, 'James Daniel', 'Manager', 90000, 101),
+    (302, 'Janet James', 'Clerk', 20000, 102),
+    (303, 'Andrew Davis', 'Librarian', 30000, 103),
+    (304, 'Sharmila Sharma', 'Assistant', 65000, 104),
+    (305, 'Thomas Varky', 'Clerk', 32000, 105),
+    (306, 'Rohith Sharma', 'Librarian', 42000, 106),
+    (307, 'Sachin Kale', 'Manager', 60000, 107),
+    (308, 'Milan Das', 'Assistant', 35000, 108),
+    (309, 'Sherin Cheriyan', 'Clerk', 33000.00, 109),
+    (310, 'Shiny Wilson', 'Librarian', 45000, 110);
+
+CREATE TABLE  Customer (
+    Customer_Id INT PRIMARY KEY,
+    Customer_name VARCHAR(100),
+    Customer_address VARCHAR(30),
+    Reg_date DATE
+);
+
+INSERT INTO Customer (Customer_Id, Customer_name, Customer_address, Reg_date)
+VALUES
+    (401, 'Sam Samson', 'Abc Street', '2023-01-15'),
+    (402, 'Jolly Davis', 'Lakshmi Road', '2022-01-01'),
+    (403, 'Emily Dellas', 'Juna Bazar', '2021-03-25'),
+    (404, 'Mathew Varghese', 'Tulip Bridge', '2020-04-30'),
+    (405, 'Michel Titus', 'Bajirao Road', '2019-05-10'),
+    (406, 'Raichal Max', 'Tulip Bridge', '2021-06-15'),
+    (407, 'Grace Koshi', 'Tulip Bridge', '2017-07-20'),
+    (408, 'Richard Roy', 'Lakshmi Road', '2016-08-25'),
+    (409, 'Peter Sam', 'Juna Bazar', '2021-09-30'),
+    (410, 'Ardino Andrew', 'Abc Street', '2014-10-05');
+
+CREATE TABLE  IssueStatus (
+    Issue_Id INT PRIMARY KEY,
+    Issued_cust INT,
+    Issued_book_name VARCHAR(50),
+    Issue_date DATE,
+    Isbn_book INT,
+    FOREIGN KEY (Issued_cust) REFERENCES Customer(Customer_Id),
+    FOREIGN KEY (Isbn_book) REFERENCES Books(ISBN)
+);
+
+INSERT INTO IssueStatus (Issue_Id, Issued_cust, Issued_book_name, Issue_date, Isbn_book)
+VALUES
+    (501, 401, 'Hari Potter', '2023-01-20', 1001),
+    (502, 402, 'Don Quixote', '2022-02-25', 1002),
+    (503, 403, 'The Alchemist', '2021-03-30', 1003),
+    (504, 404, 'The Book Thief', '2020-04-20', 1004),
+    (505, 405, 'Brave New World', '2019-05-15', 1005),
+    (506, 406, 'The Handmaids Tale', '2018-06-10', 1006),
+    (507, 407, 'Animal Farm', '2017-07-05', 1007),
+    (508, 408, 'Great Expectations', '2016-08-01', 1008),
+    (509, 409, 'The kite Runer', '2015-09-25', 1009),
+    (510, 410, 'The Catcher in the Rye', '2014-10-30', 1010);
+
+CREATE TABLE  ReturnStatus (
+    Return_Id INT PRIMARY KEY,
+    Return_cust INT,
+    Return_book_name VARCHAR(200),
+    Return_date DATE,
+    Isbn_book2 INT,
+    FOREIGN KEY (Return_cust) REFERENCES Customer(Customer_Id),
+    FOREIGN KEY (Isbn_book2) REFERENCES Books(ISBN)
+);
+
+INSERT INTO ReturnStatus (Return_Id, Return_cust, Return_book_name, Return_date, Isbn_book2)
+VALUES
+    (601, 401, 'Hari Potter ', '2023-02-10', 1001),
+    (602, 402, 'Don Quixote', '2022-03-15', 1002),
+    (603, 403, 'The Alchemist', '2021-04-20', 1003),
+    (604, 404, 'The Book Thief', '2020-05-25', 1004),
+    (605, 405, 'Brave New World', '2019-06-30', 1005),
+    (606, 406, 'The Handmaids Tale', '2018-07-05', 1006),
+    (607, 407, 'Animal Farm', '2017-08-10', 1007),
+    (608, 408, 'Great Expectations', '2016-09-15', 1008),
+    (609, 409, 'The kite Runer', '2015-10-20', 1009),
+    (610, 410, 'The Catcher in the Rye', '2014-11-25', 1010);
+
+CREATE TABLE  Books (
+    ISBN INT PRIMARY KEY,
+    Book_title VARCHAR(30),
+    Category VARCHAR(100),
+    Rental_Price DECIMAL(10, 2),
+    Status ENUM('yes', 'no'),
+    Author VARCHAR(200),
+    Publisher VARCHAR(200)
+);
+
+INSERT INTO Books (ISBN, Book_title, Category, Rental_Price, Status, Author, Publisher)
+VALUES
+    (1001, 'Hari Potter', 'C1', 10.00, 'yes', 'J.K.Rowling', 'Bloomsbery'),
+    (1002, 'Don Quixote', 'C2', 12.00, 'no', 'Migul De Cervantes', 'Francisco de Robles'),
+    (1003, 'The Alchemist', 'C3', 15.00, 'yes', 'Paulo Coelho', 'Harper Torch'),
+    (1004, 'The Book Thief', 'C4', 14.00, 'no', 'Markus Zusak', 'Alfred'),
+    (1005, 'Brave New World', 'C5', 16.00, 'yes', 'Aldous Huxley', 'Harper Collins'),
+    (1006, 'The Handmaids Tale', 'C6', 11.00, 'no', 'Margarat Atwood', 'McClelland and Stewart'),
+    (1007, 'Animal Farm', 'C7', 13.00, 'yes', 'George Orwell', 'Maple Press'),
+    (1008, 'Great Expectations', 'C8', 18.00, 'no', 'Charles Dicknes', 'Chapman & Hall'),
+    (1009, 'The kite Runer', 'C9', 17.00, 'yes', 'Khaled Hosseini', 'Riverhead Books'),
+    (1010, 'The Catcher in the Rye','C10',16.00,'yes','J.D.Salingar','Little, Brown and Company');
+
+#Write the queries for the following:
+
+#1. Retrieve the book title, category, and rental price of all available books.
+
+SELECT Book_title, Category, Rental_Price FROM Books;
+
+
+#2. List the employee names and their respective salaries in descending order of salary.
+
+SELECT Emp_name, Salary FROM Employee ORDER BY Salary DESC;
+
+#3. Retrieve the book titles and the corresponding customers who have issued those books.
+
+SELECT IssueStatus.Issued_book_name AS Book_Title, Customer.Customer_name AS Customer_Name
+FROM IssueStatus
+JOIN Customer ON IssueStatus.Issued_cust = Customer.Customer_Id
+JOIN Books ON IssueStatus.Isbn_book = Books.ISBN;
+
+#4. Display the total count of books in each category.
+
+SELECT Category, COUNT(*) AS Total_Count FROM Books GROUP BY Category;
+
+#5. Retrieve the employee names and their positions for the employees whose salaries are above Rs.50,000.
+
+SELECT Emp_name, Position FROM Employee WHERE Salary > 50000;
+
+
+#6. List the customer names who registered before 2022-01-01 and have not issued any books yet.
+
+SELECT Customer_name
+FROM Customer
+WHERE Reg_date < '2022-01-01'
+AND Customer_Id NOT IN (SELECT Issued_cust FROM IssueStatus);
+
+
+#7. Display the branch numbers and the total count of employees in each branch.
+
+SELECT Branch_no, COUNT(*) AS Total_Employees FROM Employee GROUP BY Branch_no;
+
+#8. Display the names of customers who have issued books in the month of June 2023.
+
+SELECT DISTINCT Customer.Customer_name
+FROM Customer
+JOIN IssueStatus ON Customer.Customer_Id = IssueStatus.Issued_cust
+WHERE MONTH(IssueStatus.Issue_date) = 6 AND YEAR(IssueStatus.Issue_date) = 2023;
+
+
+#9. Retrieve book_title from book table containing history. 
+
+SELECT book_title FROM Books WHERE Category = 'History';
+
+
+
+#10. Retrieve the branch numbers along with the count of employees for branches having more than 5 employees
+
+SELECT Branch_no, COUNT(*) AS Total_Employees
+FROM Employee
+GROUP BY Branch_no
+HAVING COUNT(*) > 5;
